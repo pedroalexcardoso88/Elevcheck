@@ -153,29 +153,29 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
     <div class="card">
       <div class="card-title">Protocolo de Manutenção</div>
       <div class="proto-grid">
-        <div class="proto-btn" id="pA" onclick="selProto('A')">
+        <div class="proto-btn" id="pA">
           <span class="proto-letter">A</span>
           <span class="proto-name">Básica</span>
-          <span class="proto-pts" id="ptA">...</span>
+          <span class="proto-pts" id="ptA">14 pontos</span>
         </div>
-        <div class="proto-btn" id="pB" onclick="selProto('B')">
+        <div class="proto-btn" id="pB">
           <span class="proto-letter">B</span>
           <span class="proto-name">Intermédia</span>
-          <span class="proto-pts" id="ptB">...</span>
+          <span class="proto-pts" id="ptB">21 pontos</span>
         </div>
-        <div class="proto-btn" id="pC" onclick="selProto('C')">
+        <div class="proto-btn" id="pC">
           <span class="proto-letter">C</span>
           <span class="proto-name">Completa</span>
-          <span class="proto-pts" id="ptC">...</span>
+          <span class="proto-pts" id="ptC">35 pontos</span>
         </div>
       </div>
     </div>
-    <button class="btn-start" id="btnStart" onclick="startInspection()" disabled>Iniciar Inspeção →</button>
+    <button class="btn-start" id="btnStart" disabled>Iniciar Inspeção →</button>
   </div>
 
   <div class="page" id="page-inspect">
     <div id="inspItems"></div>
-    <button class="btn-finish" onclick="finishInspection()">✓ Concluir e Gerar Relatório</button>
+    <button class="btn-finish" id="btnFinish">✓ Concluir e Gerar Relatório</button>
   </div>
 
   <div class="page" id="page-report">
@@ -478,6 +478,11 @@ t.textContent=msg;
 t.classList.add(‘show’);
 setTimeout(function(){t.classList.remove(‘show’);},2500);
 }
+document.getElementById(“pA”).addEventListener(“click”,function(){selProto(“A”);});
+document.getElementById(“pB”).addEventListener(“click”,function(){selProto(“B”);});
+document.getElementById(“pC”).addEventListener(“click”,function(){selProto(“C”);});
+document.getElementById(“btnStart”).addEventListener(“click”,startInspection);
+document.getElementById(“btnFinish”).addEventListener(“click”,finishInspection);
 </script>
 
 </body>
