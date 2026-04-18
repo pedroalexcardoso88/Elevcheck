@@ -1,0 +1,762 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2868
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+\
+<html lang="pt">\
+<head>\
+<meta charset="UTF-8">\
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">\
+<meta name="theme-color" content="#0a0f1e">\
+<meta name="apple-mobile-web-app-capable" content="yes">\
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">\
+<meta name="apple-mobile-web-app-title" content="ElevCheck">\
+<link rel="manifest" href="manifest.json">\
+<link rel="apple-touch-icon" href="icon-192.png">\
+<title>ElevCheck</title>\
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">\
+<style>\
+:root \{\
+  --bg: #0a0f1e;\
+  --surface: #111827;\
+  --surface2: #1a2235;\
+  --border: #1f2d45;\
+  --accent: #3b82f6;\
+  --accent2: #60a5fa;\
+  --ok: #10b981;\
+  --nok: #f43f5e;\
+  --warn: #f59e0b;\
+  --text: #e2e8f0;\
+  --muted: #64748b;\
+  --card: #141c2e;\
+\}\
+*\{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;\}\
+html,body\{height:100%;overflow:hidden;\}\
+body\{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px;display:flex;flex-direction:column;\}\
+\
+/* INSTALL BANNER */\
+#installBanner\{\
+background:linear-gradient(135deg,#1d4ed8,var(\'96accent));\
+padding:12px 16px;\
+display:none;\
+align-items:center;\
+gap:10px;\
+font-size:13px;\
+font-weight:500;\
+\}\
+#installBanner.show\{display:flex;\}\
+#installBanner button\{\
+margin-left:auto;\
+background:white;\
+color:var(\'96accent);\
+border:none;\
+border-radius:8px;\
+padding:6px 14px;\
+font-weight:700;\
+font-size:12px;\
+cursor:pointer;\
+white-space:nowrap;\
+font-family:\'91DM Sans\'92,sans-serif;\
+\}\
+\
+/* HEADER */\
+.header\{\
+background:var(\'96surface);\
+border-bottom:1px solid var(\'96border);\
+padding:12px 16px;\
+display:flex;\
+align-items:center;\
+gap:10px;\
+flex-shrink:0;\
+z-index:100;\
+\}\
+.logo\{font-family:\'91Syne\'92,sans-serif;font-weight:800;font-size:20px;color:var(\'96accent2);\}\
+.logo span\{color:var(\'96text);\}\
+.header-proto\{\
+background:rgba(59,130,246,0.15);\
+border:1px solid rgba(59,130,246,0.3);\
+color:var(\'96accent2);\
+font-size:11px;\
+font-weight:700;\
+padding:3px 9px;\
+border-radius:20px;\
+display:none;\
+font-family:\'91Syne\'92,sans-serif;\
+\}\
+.header-proto.show\{display:block;\}\
+.anomaly-pill\{\
+margin-left:auto;\
+background:var(\'96nok);\
+color:white;\
+font-family:\'91Syne\'92,sans-serif;\
+font-weight:700;\
+font-size:12px;\
+padding:4px 10px;\
+border-radius:20px;\
+display:none;\
+\}\
+.anomaly-pill.show\{display:block;\}\
+\
+/* NAV TABS */\
+.tabs\{\
+display:flex;\
+border-bottom:1px solid var(\'96border);\
+background:var(\'96surface);\
+flex-shrink:0;\
+\}\
+.tab\{\
+flex:1;\
+padding:10px 4px;\
+text-align:center;\
+font-size:11px;\
+font-weight:600;\
+color:var(\'96muted);\
+cursor:pointer;\
+border-bottom:2px solid transparent;\
+transition:all 0.2s;\
+font-family:\'91Syne\'92,sans-serif;\
+letter-spacing:0.3px;\
+text-transform:uppercase;\
+\}\
+.tab.active\{color:var(\'96accent2);border-bottom-color:var(\'96accent);\}\
+\
+/* MAIN CONTENT */\
+.main\{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;\}\
+.page\{display:none;padding:16px;\}\
+.page.active\{display:block;\}\
+\
+/* SETUP PAGE */\
+.setup-hero\{text-align:center;padding:24px 0 20px;\}\
+.setup-hero h1\{font-family:\'91Syne\'92,sans-serif;font-size:26px;font-weight:800;line-height:1.1;margin-bottom:6px;\}\
+.setup-hero h1 em\{color:var(\'96accent2);font-style:normal;\}\
+.setup-hero p\{color:var(\'96muted);font-size:13px;\}\
+\
+.card\{background:var(\'96card);border:1px solid var(\'96border);border-radius:14px;padding:18px;margin-bottom:14px;\}\
+.card-title\{font-family:\'91Syne\'92,sans-serif;font-size:11px;font-weight:700;color:var(\'96muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;\}\
+\
+.grid2\{display:grid;grid-template-columns:1fr 1fr;gap:10px;\}\
+.field\{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;\}\
+.field:last-child\{margin-bottom:0;\}\
+.field label\{font-size:11px;font-weight:500;color:var(\'96muted);text-transform:uppercase;letter-spacing:0.5px;\}\
+.field input,.field select\{\
+background:var(\'96surface2);border:1px solid var(\'96border);border-radius:10px;\
+padding:11px 13px;color:var(\'96text);font-family:\'91DM Sans\'92,sans-serif;font-size:14px;outline:none;\
+transition:border-color 0.2s;width:100%;\
+\}\
+.field input:focus,.field select:focus\{border-color:var(\'96accent);\}\
+.field select option\{background:var(\'96surface);\}\
+\
+.proto-grid\{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;\}\
+.proto-btn\{\
+background:var(\'96surface2);border:2px solid var(\'96border);border-radius:12px;\
+padding:14px 8px;text-align:center;cursor:pointer;transition:all 0.2s;\
+\}\
+.proto-btn.sel\{border-color:var(\'96accent);background:rgba(59,130,246,0.12);\}\
+.proto-letter\{font-family:\'91Syne\'92,sans-serif;font-size:26px;font-weight:800;color:var(\'96accent2);display:block;\}\
+.proto-name\{font-size:10px;color:var(\'96muted);margin-top:2px;display:block;\}\
+.proto-pts\{font-size:10px;color:var(\'96accent);margin-top:1px;display:block;font-weight:600;\}\
+\
+.btn-start\{\
+width:100%;background:linear-gradient(135deg,var(\'96accent),#1d4ed8);color:white;\
+border:none;border-radius:13px;padding:15px;font-family:\'91Syne\'92,sans-serif;\
+font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;letter-spacing:0.3px;\
+\}\
+.btn-start:disabled\{opacity:0.35;cursor:not-allowed;\}\
+.btn-start:not(:disabled):active\{transform:scale(0.98);\}\
+\
+/* PROGRESS */\
+.progress-wrap\{\
+background:var(\'96surface);border-bottom:1px solid var(\'96border);\
+padding:10px 16px;flex-shrink:0;\
+\}\
+.prog-info\{display:flex;justify-content:space-between;font-size:11px;color:var(\'96muted);margin-bottom:6px;\}\
+.prog-info strong\{color:var(\'96text);font-family:\'91Syne\'92,sans-serif;\}\
+.prog-bar\{height:3px;background:var(\'96border);border-radius:3px;overflow:hidden;\}\
+.prog-fill\{height:100%;background:linear-gradient(90deg,var(\'96accent),var(\'96ok));border-radius:3px;transition:width 0.4s ease;\}\
+\
+/* ZONE HEADER */\
+.zone-hdr\{display:flex;align-items:center;gap:10px;margin:22px 0 10px;padding-bottom:8px;border-bottom:1px solid var(\'96border);\}\
+.zone-icon\{width:32px;height:32px;background:linear-gradient(135deg,var(\'96accent),#1d4ed8);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;\}\
+.zone-title\{font-family:\'91Syne\'92,sans-serif;font-size:13px;font-weight:700;\}\
+.zone-sub\{font-size:11px;color:var(\'96muted);\}\
+\
+/* ITEM CARD */\
+.item\{background:var(\'96card);border:1px solid var(\'96border);border-radius:12px;padding:14px;margin-bottom:8px;transition:border-color 0.2s;\}\
+.item.ok\{border-color:var(\'96ok);\}\
+.item.nok\{border-color:var(\'96nok);\}\
+.item-num\{font-size:10px;font-weight:700;color:var(\'96muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px;\}\
+.item-text\{font-size:13px;line-height:1.5;margin-bottom:8px;\}\
+.item-obs\{\
+display:inline-flex;align-items:center;gap:4px;\
+background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);\
+border-radius:6px;padding:3px 9px;font-size:11px;color:var(\'96warn);margin-bottom:10px;font-weight:500;\
+\}\
+.result-row\{display:grid;grid-template-columns:1fr 1fr;gap:7px;\}\
+.btn-ok,.btn-nok\{\
+border:2px solid;border-radius:9px;padding:9px 8px;\
+font-family:\'91Syne\'92,sans-serif;font-size:12px;font-weight:700;cursor:pointer;\
+transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:5px;background:transparent;\
+\}\
+.btn-ok\{border-color:var(\'96ok);color:var(\'96ok);\}\
+.btn-ok.a,.btn-ok:active\{background:var(\'96ok);color:white;\}\
+.btn-nok\{border-color:var(\'96nok);color:var(\'96nok);\}\
+.btn-nok.a,.btn-nok:active\{background:var(\'96nok);color:white;\}\
+.anom-field\{display:none;margin-top:8px;\}\
+.anom-field.show\{display:block;\}\
+.anom-field textarea\{\
+width:100%;background:var(\'96surface2);border:1px solid var(\'96nok);\
+border-radius:9px;padding:9px 12px;color:var(\'96text);font-family:\'91DM Sans\'92,sans-serif;\
+font-size:13px;outline:none;resize:none;height:66px;\
+\}\
+.anom-field textarea::placeholder\{color:var(\'96muted);\}\
+\
+.btn-finish\{\
+width:100%;background:linear-gradient(135deg,var(\'96ok),#059669);color:white;\
+border:none;border-radius:13px;padding:16px;font-family:\'91Syne\'92,sans-serif;\
+font-size:15px;font-weight:700;cursor:pointer;margin:20px 0 32px;letter-spacing:0.3px;\
+\}\
+.btn-finish:active\{transform:scale(0.98);\}\
+\
+/* REPORT PAGE */\
+.report-hero\{\
+background:linear-gradient(135deg,#0f2027,#1a3a4a);\
+border-radius:14px;padding:20px;margin-bottom:16px;text-align:center;\
+border:1px solid var(\'96border);\
+\}\
+.report-hero h2\{font-family:\'91Syne\'92,sans-serif;font-size:18px;font-weight:800;margin-bottom:3px;\}\
+.report-hero p\{color:var(\'96muted);font-size:12px;\}\
+.stats\{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;\}\
+.stat\{background:var(\'96card);border:1px solid var(\'96border);border-radius:12px;padding:14px;text-align:center;\}\
+.stat-n\{font-family:\'91Syne\'92,sans-serif;font-size:26px;font-weight:800;display:block;\}\
+.stat-l\{font-size:10px;color:var(\'96muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:3px;display:block;\}\
+.stat.ok .stat-n\{color:var(\'96ok);\}\
+.stat.nok .stat-n\{color:var(\'96nok);\}\
+.stat.tot .stat-n\{color:var(\'96accent2);\}\
+\
+.section-label\{font-family:\'91Syne\'92,sans-serif;font-size:12px;font-weight:700;color:var(\'96nok);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;\}\
+.anom-item\{\
+background:rgba(244,63,94,0.06);border:1px solid rgba(244,63,94,0.18);\
+border-left:3px solid var(\'96nok);border-radius:10px;padding:12px 14px;margin-bottom:8px;\
+\}\
+.anom-zone\{font-size:10px;color:var(\'96nok);font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px;\}\
+.anom-op\{font-size:12px;line-height:1.45;margin-bottom:4px;\}\
+.anom-desc\{font-size:11px;color:var(\'96warn);font-style:italic;\}\
+.all-ok-box\{\
+background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.2);\
+border-radius:12px;padding:24px;text-align:center;color:var(\'96ok);margin-bottom:16px;\
+\}\
+.all-ok-box .big\{font-size:32px;display:block;margin-bottom:6px;\}\
+.all-ok-box p\{font-family:\'91Syne\'92,sans-serif;font-weight:700;font-size:14px;\}\
+\
+.email-box\{background:var(\'96card);border:1px solid var(\'96border);border-radius:12px;overflow:hidden;margin-bottom:8px;\}\
+.email-hdr\{background:var(\'96surface2);padding:12px 16px;border-bottom:1px solid var(\'96border);display:flex;align-items:center;justify-content:space-between;\}\
+.email-hdr span\{font-family:\'91Syne\'92,sans-serif;font-size:12px;font-weight:700;color:var(\'96accent2);\}\
+.btn-copy\{background:var(\'96accent);color:white;border:none;border-radius:7px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'91DM Sans\'92,sans-serif;\}\
+.email-body\{padding:14px 16px;font-size:12px;line-height:1.75;white-space:pre-wrap;color:#94a3b8;max-height:260px;overflow-y:auto;font-family:\'91Courier New\'92,monospace;\}\
+.btn-row\{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:32px;\}\
+.btn-sec\{background:var(\'96surface2);color:var(\'96text);border:1px solid var(\'96border);border-radius:11px;padding:13px;font-family:\'91Syne\'92,sans-serif;font-size:13px;font-weight:700;cursor:pointer;\}\
+.btn-pri\{background:linear-gradient(135deg,var(\'96accent),#1d4ed8);color:white;border:none;border-radius:11px;padding:13px;font-family:\'91Syne\'92,sans-serif;font-size:13px;font-weight:700;cursor:pointer;\}\
+\
+/* HISTORY PAGE */\
+.hist-empty\{text-align:center;padding:48px 20px;color:var(\'96muted);\}\
+.hist-empty .ico\{font-size:40px;display:block;margin-bottom:10px;\}\
+.hist-empty p\{font-size:13px;\}\
+.hist-item\{\
+background:var(\'96card);border:1px solid var(\'96border);border-radius:12px;\
+padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color 0.2s;\
+\}\
+.hist-item:active\{border-color:var(\'96accent);\}\
+.hist-top\{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;\}\
+.hist-elev\{font-family:\'91Syne\'92,sans-serif;font-size:15px;font-weight:800;\}\
+.hist-proto\{\
+background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.25);\
+color:var(\'96accent2);font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;\
+font-family:\'91Syne\'92,sans-serif;\
+\}\
+.hist-loc\{font-size:12px;color:var(\'96muted);margin-bottom:4px;\}\
+.hist-bot\{display:flex;align-items:center;justify-content:space-between;\}\
+.hist-date\{font-size:11px;color:var(\'96muted);\}\
+.hist-badge\{font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;\}\
+.hist-badge.ok\{background:rgba(16,185,129,0.15);color:var(\'96ok);\}\
+.hist-badge.nok\{background:rgba(244,63,94,0.15);color:var(\'96nok);\}\
+.hist-del\{background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.2);color:var(\'96nok);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'91DM Sans\'92,sans-serif;\}\
+\
+/* OFFLINE TOAST */\
+.toast\{\
+position:fixed;bottom:20px;left:50%;transform:translateX(-50%);\
+background:#1e293b;border:1px solid var(\'96border);color:var(\'96text);\
+padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;\
+z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;\
+\}\
+.toast.show\{opacity:1;\}\
+</style>\
+\
+</head>\
+<body>\
+\
+<div id="installBanner">\
+  \uc0\u55357 \u56561  Instala o ElevCheck no teu telem\'f3vel\
+  <button onclick="installApp()">Instalar</button>\
+</div>\
+\
+<div class="header">\
+  <div class="logo">Elev<span>Check</span></div>\
+  <div class="header-proto" id="headerProto">\'97</div>\
+  <div class="anomaly-pill" id="anomalyPill">\uc0\u9888 \u65039  0</div>\
+</div>\
+\
+<!-- TABS -->\
+\
+<div class="tabs">\
+  <div class="tab active" onclick="showTab('setup')" id="tab-setup">\uc0\u9881 \u65039  Inspec\'e7\'e3o</div>\
+  <div class="tab" onclick="showTab('inspect')" id="tab-inspect">\uc0\u55357 \u56523  Formul\'e1rio</div>\
+  <div class="tab" onclick="showTab('report')" id="tab-report">\uc0\u55357 \u56522  Relat\'f3rio</div>\
+  <div class="tab" onclick="showTab('history')" id="tab-history">\uc0\u55357 \u56656  Hist\'f3rico</div>\
+</div>\
+\
+<!-- PROGRESS (only in inspect tab) -->\
+\
+<div class="progress-wrap" id="progressWrap" style="display:none">\
+  <div class="prog-info">\
+    <span>Progresso \'97 <strong id="progText">0/0</strong></span>\
+    <span id="progPct">0%</span>\
+  </div>\
+  <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>\
+</div>\
+\
+<div class="main">\
+\
+  <!-- SETUP -->\
+\
+  <div class="page active" id="page-setup">\
+    <div class="setup-hero">\
+      <h1>Inspe\'e7\'e3o de<br><em>Elevadores</em></h1>\
+      <p>Protocolo TBM \'97 Ascensor El\'e9trico Tradicional</p>\
+    </div>\
+\
+```\
+<div class="card">\
+  <div class="card-title">Dados do Elevador</div>\
+  <div class="grid2">\
+    <div class="field">\
+      <label>N\'ba Elevador</label>\
+      <input type="text" id="fNum" placeholder="ex: 4219661" oninput="validate()">\
+    </div>\
+    <div class="field">\
+      <label>Data</label>\
+      <input type="date" id="fData">\
+    </div>\
+  </div>\
+  <div class="field">\
+    <label>Morada / Local</label>\
+    <input type="text" id="fLocal" placeholder="Rua das Flores 12, Lisboa">\
+  </div>\
+  <div class="field" style="margin-bottom:0">\
+    <label>T\'e9cnico</label>\
+    <input type="text" id="fTec" placeholder="Nome do t\'e9cnico" oninput="validate()">\
+  </div>\
+</div>\
+\
+<div class="card">\
+  <div class="card-title">Protocolo de Manuten\'e7\'e3o</div>\
+  <div class="proto-grid">\
+    <div class="proto-btn" id="pA" onclick="selProto('A')">\
+      <span class="proto-letter">A</span>\
+      <span class="proto-name">B\'e1sica</span>\
+      <span class="proto-pts" id="ptA">\'97 pts</span>\
+    </div>\
+    <div class="proto-btn" id="pB" onclick="selProto('B')">\
+      <span class="proto-letter">B</span>\
+      <span class="proto-name">Interm\'e9dia</span>\
+      <span class="proto-pts" id="ptB">\'97 pts</span>\
+    </div>\
+    <div class="proto-btn" id="pC" onclick="selProto('C')">\
+      <span class="proto-letter">C</span>\
+      <span class="proto-name">Completa</span>\
+      <span class="proto-pts" id="ptC">\'97 pts</span>\
+    </div>\
+  </div>\
+</div>\
+\
+<button class="btn-start" id="btnStart" onclick="startInspection()" disabled>\
+  Iniciar Inspe\'e7\'e3o \uc0\u8594 \
+</button>\
+```\
+\
+  </div>\
+\
+  <!-- INSPECT -->\
+\
+  <div class="page" id="page-inspect">\
+    <div id="inspItems"></div>\
+    <button class="btn-finish" onclick="finishInspection()">\uc0\u10003  Concluir e Gerar Relat\'f3rio</button>\
+  </div>\
+\
+  <!-- REPORT -->\
+\
+  <div class="page" id="page-report">\
+    <div class="report-hero">\
+      <h2>\uc0\u55357 \u56523  Relat\'f3rio de Inspe\'e7\'e3o</h2>\
+      <p id="rSubtitle">\'97</p>\
+    </div>\
+    <div class="stats">\
+      <div class="stat tot"><span class="stat-n" id="rTotal">0</span><span class="stat-l">Total</span></div>\
+      <div class="stat ok"><span class="stat-n" id="rOk">0</span><span class="stat-l">OK</span></div>\
+      <div class="stat nok"><span class="stat-n" id="rNok">0</span><span class="stat-l">Anomalias</span></div>\
+    </div>\
+    <div id="rAnomSection"></div>\
+    <div class="email-box">\
+      <div class="email-hdr">\
+        <span>\uc0\u55357 \u56551  Email autom\'e1tico</span>\
+        <button class="btn-copy" onclick="copyEmail()">Copiar</button>\
+      </div>\
+      <div class="email-body" id="rEmail">\'97</div>\
+    </div>\
+    <div class="btn-row">\
+      <button class="btn-sec" onclick="novaInspeccao()">\uc0\u8617  Nova Inspe\'e7\'e3o</button>\
+      <button class="btn-pri" onclick="abrirEmail()">Enviar Email \uc0\u9993 \u65039 </button>\
+    </div>\
+  </div>\
+\
+  <!-- HISTORY -->\
+\
+  <div class="page" id="page-history">\
+    <div id="histList"></div>\
+  </div>\
+\
+</div>\
+\
+<div class="toast" id="toast"></div>\
+\
+<script>\
+// ============================================================\
+// DATA\
+// ============================================================\
+const ITEMS = [\
+  \{z:"Zona do Po\'e7o",i:"\uc0\u55357 \u56691 \u65039 ",op:"Ligue a ilumina\'e7\'e3o do po\'e7o. Observe o estado e a fixa\'e7\'e3o do avental, sujidade/mobilidade da soleira m\'f3vel.",obs:"",A:1,B:1,C:1\},\
+  \{z:"Zona do Po\'e7o",i:"\uc0\u55357 \u56691 \u65039 ",op:"Observe o estado geral do po\'e7o (humidades e limpeza) e dos elementos e mecanismos existentes (escada, roda tensora e seu contacto, recolhas de \'f3leo, fim de curso e limite da mudan\'e7a, fixa\'e7\'e3o e tens\'e3o do cabo/corda do obturador).",obs:"No Patamar Inferior / Cabina a Meia Altura",A:1,B:1,C:1\},\
+  \{z:"Zona do Po\'e7o",i:"\uc0\u55357 \u56691 \u65039 ",op:"Observe o estado da arcada e dos restantes elementos situados por baixo da cabina (fixa\'e7\'e3o da cabina \'e0 arcada, ro\'e7adeiras/rodadeiras, rodas, fixa\'e7\'e3o e movimento do cabo manobras e da corrente de compensa\'e7\'e3o se existir, fundo m\'f3vel).",obs:"Cabina no Ext. Superior",A:0,B:0,C:1\},\
+  \{z:"Zona do Po\'e7o",i:"\uc0\u55357 \u56691 \u65039 ",op:"Teste o dispositivo de comunica\'e7\'e3o bidirecional debaixo da cabina.",obs:"",A:0,B:0,C:1\},\
+  \{z:"Zona do Po\'e7o",i:"\uc0\u55357 \u56691 \u65039 ",op:"Verifique o alongamento dos cabos/cintas de tra\'e7\'e3o. Observe o estado da fixa\'e7\'e3o das guias, amortecedores da cabina e do contrapeso, separa\'e7\'e3o da caixa e prote\'e7\'e3o do contrapeso se existir.",obs:"Cabina no Ext. Superior",A:0,B:0,C:1\},\
+  \{z:"Zona do Po\'e7o",i:"\uc0\u55357 \u56691 \u65039 ",op:"Verifique e Acione manualmente o sistema do p\'e1ra-quedas/p\'e1ra-subidas e Observe a atua\'e7\'e3o do(s) contacto(s).",obs:"No Po\'e7o",A:0,B:1,C:1\},\
+  \{z:"Zona do Po\'e7o",i:"\uc0\u55357 \u56691 \u65039 ",op:"Teste o contacto el\'e9trico da roda tensora. Verifique se existe falta de avisos, marca\'e7\'f5es e instru\'e7\'f5es. Limpe o Po\'e7o.",obs:"",A:0,B:0,C:1\},\
+  \{z:"Interior da Cabina",i:"\uc0\u55357 \u57002 ",op:"Observe o estado da cabina e dos elementos da decora\'e7\'e3o (grelha do teto, pain\'e9is, corrim\'e3os e ch\'e3o), ilumina\'e7\'e3o e sinaliza\'e7\'e3o. Verifique a exist\'eancia de todas as etiquetas regulamentares e o c\'f3digo do aparelho.",obs:"Antes de Iniciar as Viagens",A:1,B:1,C:1\},\
+  \{z:"Interior da Cabina",i:"\uc0\u55357 \u57002 ",op:"Teste a abertura, reabertura, fecho, c\'e9lulas/cortinas, sens\'edvel, da porta de cabina. Teste a soleira m\'f3vel, bot\'e3o de stop e fundo m\'f3vel quando existe.",obs:"Antes de Iniciar as Viagens",A:1,B:1,C:1\},\
+  \{z:"Interior da Cabina",i:"\uc0\u55357 \u57002 ",op:"Teste os bot\'f5es da cabina e Observe a sinaliza\'e7\'e3o e o indicador de posi\'e7\'e3o.",obs:"",A:1,B:1,C:1\},\
+  \{z:"Interior da Cabina",i:"\uc0\u55357 \u57002 ",op:"Verifique os ru\'eddos, vibra\'e7\'f5es, mudan\'e7as de velocidade, acerto aos pisos e as paragens.",obs:"",A:1,B:1,C:1\},\
+  \{z:"Interior da Cabina",i:"\uc0\u55357 \u57002 ",op:"Observe as folgas das ro\'e7adeiras/rodadeiras inferiores da cabina em cada piso.",obs:"Parado em Cada Piso",A:1,B:1,C:1\},\
+  \{z:"Interior da Cabina",i:"\uc0\u55357 \u57002 ",op:"Observe o funcionamento simult\'e2neo das portas da cabina com as portas do patamar em cada piso.",obs:"Parado em Cada Piso",A:1,B:1,C:1\},\
+  \{z:"Interior da Cabina",i:"\uc0\u55357 \u57002 ",op:"Teste os bot\'f5es e a sinaliza\'e7\'e3o exterior. Observe a parte exterior das portas de piso, estado superficial das portas (molduras, ditactores/amortecedores e vidros). Observe a ilumina\'e7\'e3o dos patamares.",obs:"",A:0,B:1,C:1\},\
+  \{z:"Interior da Cabina",i:"\uc0\u55357 \u57002 ",op:"Verifique a exist\'eancia das terras na cabina e nas portas do patamar.",obs:"",A:0,B:0,C:1\},\
+  \{z:"Interior da Cabina",i:"\uc0\u55357 \u57002 ",op:"Teste o diferencial do quadro de entrada. Com a corrente desligada, Teste a emerg\'eancia, alarme e dispositivo de comunica\'e7\'e3o bidirecional da cabina.",obs:"No Patamar Ext. Superior",A:1,B:1,C:1\},\
+  \{z:"Casa das M\'e1quinas",i:"\uc0\u9881 \u65039 ",op:"Observe a m\'e1quina e os seus componentes: estado das rodas, trav\'e3o (cal\'e7os) e sistema da abertura da emerg\'eancia, fixa\'e7\'e3o da bancada, fugas/n\'edvel de \'f3leo, folgas, ru\'eddos, vibra\'e7\'f5es e aquecimento do motor-m\'e1quina.",obs:"",A:1,B:1,C:1\},\
+  \{z:"Casa das M\'e1quinas",i:"\uc0\u9881 \u65039 ",op:"Operar viagem na descida e subida no quadro de comando, observando ru\'eddos e entrada/queda de contactores. Observe a condi\'e7\'e3o dos cabos/correias de tra\'e7\'e3o e suas marcas, na descida. Observe a condi\'e7\'e3o do cabo do limitador, na subida.",obs:"",A:1,B:1,C:1\},\
+  \{z:"Casa das M\'e1quinas",i:"\uc0\u9881 \u65039 ",op:"Observe a fixa\'e7\'e3o e o funcionamento do limitador, gornes da roda, contacto e a exist\'eancia do selo.",obs:"",A:1,B:1,C:1\},\
+  \{z:"Casa das M\'e1quinas",i:"\uc0\u9881 \u65039 ",op:"Verifique se a casa das m\'e1quinas se encontra de acordo com a legisla\'e7\'e3o. Verifique o acesso desde da via p\'fablica (desimpedido, iluminado).",obs:"",A:0,B:0,C:1\},\
+  \{z:"Casa das M\'e1quinas",i:"\uc0\u9881 \u65039 ",op:"No quadro de comando Reaperte os Bornes de For\'e7a. Teste o t\'e9rmico/term\'edstor do motor, termostato da temperatura da casa das m\'e1quinas e equipamentos opcionais (emerg\'eancia, eco do intercomunicador).",obs:"Na Casa das M\'e1quinas",A:0,B:0,C:1\},\
+  \{z:"Casa das M\'e1quinas",i:"\uc0\u9881 \u65039 ",op:"Teste o limitador tempo funcionamento motor - Art.\'ba 75, o sequenciador e falta de fase e o sistema UCM se existir.",obs:"",A:0,B:0,C:1\},\
+  \{z:"Casa das M\'e1quinas",i:"\uc0\u9881 \u65039 ",op:"Teste o(s) limitador(es) de velocidades em pequena velocidade e verifique se o sistema de p\'e1ra-quedas/p\'e1ra-subidas atuou. Verifique a atua\'e7\'e3o dos contactos el\'e9tricos.",obs:"",A:0,B:0,C:1\},\
+  \{z:"Casa das M\'e1quinas",i:"\uc0\u9881 \u65039 ",op:"Teste o dispositivo dos fins de curso. Teste a ader\'eancia dos cabos. Verifique a folga da m\'e1quina.",obs:"",A:0,B:0,C:1\},\
+  \{z:"Casa das M\'e1quinas",i:"\uc0\u9881 \u65039 ",op:"Verifique se existe falta de avisos, marca\'e7\'f5es e instru\'e7\'f5es. Limpe a casa das m\'e1quinas.",obs:"",A:0,B:0,C:1\},\
+  \{z:"Teto da Cabina",i:"\uc0\u55357 \u56605 ",op:"Ligue a ilumina\'e7\'e3o da caixa. Verifique o funcionamento do operador de portas com uma opera\'e7\'e3o de abertura e fecho.",obs:"No Patamar Sup. junto ao Teto da Cabina",A:1,B:1,C:1\},\
+  \{z:"Teto da Cabina",i:"\uc0\u55357 \u56605 ",op:"Observe os elementos situados no teto da cabina: (botoneira da revis\'e3o, folga nas ro\'e7adeiras/rodadeiras, rodas, fixa\'e7\'e3o da cabina \'e0 arcada e da balaustrada \'e0 cabina, cal\'e7o m\'f3vel, etc.). Visualize os valores do controlo de carga.",obs:"No Patamar Sup. junto ao Teto da Cabina",A:1,B:1,C:1\},\
+  \{z:"Teto da Cabina",i:"\uc0\u55357 \u56605 ",op:"Observe a fixa\'e7\'e3o, alinhamento e tens\'e3o do cabo/corda do obturador e a fixa\'e7\'e3o do fim de curso e do limite da mudan\'e7a.",obs:"Em Descida \'e0 Revis\'e3o",A:0,B:1,C:1\},\
+  \{z:"Teto da Cabina",i:"\uc0\u55357 \u56605 ",op:"Verifique o estado e a limpeza dos componentes mec\'e2nicos das portas do patamar pelo seu interior, alinhamento das rampas face aos rod\'edzios, afina\'e7\'f5es mec\'e2nicas e afina\'e7\'f5es das fechaduras. Teste os encravamentos el\'e9tricos e mec\'e2nicos das fechaduras.",obs:"Em Descida \'e0 Revis\'e3o",A:0,B:1,C:1\},\
+  \{z:"Teto da Cabina",i:"\uc0\u55357 \u56605 ",op:"Verifique os contrafortes, fixa\'e7\'f5es, guias da cabina/contrapeso. Lubrifique as guias se necess\'e1rio. Observe a ilumina\'e7\'e3o da Caixa.",obs:"Em Descida \'e0 Revis\'e3o",A:0,B:1,C:1\},\
+  \{z:"Teto da Cabina",i:"\uc0\u55357 \u56605 ",op:"Teste a abertura das portas de patamar com a chave de emerg\'eancia e Verifique se as portas de acesso \'e0s escadas est\'e3o desbloqueadas.",obs:"",A:0,B:0,C:1\},\
+  \{z:"Teto da Cabina",i:"\uc0\u55357 \u56605 ",op:"Observe a arcada do contrapeso: o estado e a igualiza\'e7\'e3o dos cabos/cintas de tra\'e7\'e3o, folga das ro\'e7adeiras/rodadeiras, roda, fixa\'e7\'e3o da corrente de compensa\'e7\'e3o, amarra\'e7\'f5es, fixa\'e7\'f5es, bloqueio dos pesos e afrouxamento de cabos se existir.",obs:"Em Revis\'e3o, junto ao Contrapeso",A:0,B:1,C:1\},\
+  \{z:"Teto da Cabina",i:"\uc0\u55357 \u56605 ",op:"Se existir, Verifique e Acione Manualmente o sistema de p\'e1ra-quedas do contrapeso e da cabina.",obs:"Em Revis\'e3o, junto ao Contrapeso",A:0,B:1,C:1\},\
+  \{z:"Teto da Cabina",i:"\uc0\u55357 \u56605 ",op:"Teste o dispositivo de comunica\'e7\'e3o bidirecional e controlo de carga no teto da cabina. Verifique se existe falta de avisos, marca\'e7\'f5es e instru\'e7\'f5es.",obs:"No Teto da Cabina",A:0,B:0,C:1\},\
+  \{z:"Teto da Cabina",i:"\uc0\u55357 \u56605 ",op:"Limpe a caixa, guias, fixa\'e7\'f5es e teto da cabina.",obs:"",A:0,B:0,C:1\},\
+];\
+\
+// ============================================================\
+// STATE\
+// ============================================================\
+let proto = null, filtered = [], results = \{\}, currentSession = null;\
+\
+// Init counts\
+['A','B','C'].forEach(p => \{\
+  document.getElementById('pt'+p).textContent = ITEMS.filter(i=>i[p]).length + ' pontos';\
+\});\
+document.getElementById('fData').valueAsDate = new Date();\
+\
+// ============================================================\
+// TABS\
+// ============================================================\
+function showTab(t) \{\
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));\
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));\
+  document.getElementById('tab-'+t).classList.add('active');\
+  document.getElementById('page-'+t).classList.add('active');\
+  document.getElementById('progressWrap').style.display = t==='inspect' ? 'block' : 'none';\
+  if(t==='history') renderHistory();\
+\}\
+\
+// ============================================================\
+// SETUP\
+// ============================================================\
+function selProto(p) \{\
+  proto = p;\
+  document.querySelectorAll('.proto-btn').forEach(b => b.classList.remove('sel'));\
+  document.getElementById('p'+p).classList.add('sel');\
+  document.getElementById('headerProto').textContent = 'Protocolo '+p;\
+  document.getElementById('headerProto').classList.add('show');\
+  validate();\
+\}\
+\
+function validate() \{\
+  const ok = proto && document.getElementById('fNum').value.trim() && document.getElementById('fTec').value.trim();\
+  document.getElementById('btnStart').disabled = !ok;\
+\}\
+\
+function startInspection() \{\
+  filtered = ITEMS.filter(i => i[proto]);\
+  results = \{\};\
+  currentSession = \{\
+    num: document.getElementById('fNum').value.trim(),\
+    local: document.getElementById('fLocal').value.trim() || 'N/D',\
+    tec: document.getElementById('fTec').value.trim(),\
+    data: document.getElementById('fData').value,\
+    proto\
+  \};\
+  renderItems();\
+  updateProgress();\
+  showTab('inspect');\
+\}\
+\
+// ============================================================\
+// INSPECTION\
+// ============================================================\
+function renderItems() \{\
+  const c = document.getElementById('inspItems');\
+  c.innerHTML = '';\
+  const zones = [...new Set(filtered.map(i=>i.z))];\
+  zones.forEach(zona => \{\
+    const zItems = filtered.filter(i=>i.z===zona);\
+    const icon = zItems[0].i;\
+    c.insertAdjacentHTML('beforeend', `\
+      <div class="zone-hdr">\
+        <div class="zone-icon">$\{icon\}</div>\
+        <div><div class="zone-title">$\{zona\}</div><div class="zone-sub">$\{zItems.length\} pontos</div></div>\
+      </div>`);\
+    zItems.forEach(item => \{\
+      const idx = filtered.indexOf(item);\
+      c.insertAdjacentHTML('beforeend', `\
+        <div class="item" id="c$\{idx\}">\
+          <div class="item-num">Ponto $\{idx+1\} de $\{filtered.length\}</div>\
+          <div class="item-text">$\{item.op\}</div>\
+          $\{item.obs?`<div class="item-obs">\uc0\u55357 \u56525  $\{item.obs\}</div>`:''\}\
+          <div class="result-row">\
+            <button class="btn-ok" id="ok$\{idx\}" onclick="setR($\{idx\},'ok')">\uc0\u10003  OK</button>\
+            <button class="btn-nok" id="nok$\{idx\}" onclick="setR($\{idx\},'nok')">\uc0\u10007  NOK</button>\
+          </div>\
+          <div class="anom-field" id="af$\{idx\}">\
+            <textarea placeholder="Descreve a anomalia..." id="d$\{idx\}" oninput="updD($\{idx\})"></textarea>\
+\
+```\
+      </div>\
+    </div>`);\
+\});\
+```\
+\
+\});\
+\}\
+\
+function setR(idx, r) \{\
+results[idx] = \{result:r, desc: results[idx]?.desc||\'92\'92\};\
+const card = document.getElementById(\'91c\'92+idx);\
+card.className = \'91item \'91+r;\
+document.getElementById(\'91ok\'92+idx).className = \'91btn-ok\'92 + (r===\'91ok\'92?\'92 a\'92:\'92\'92);\
+document.getElementById(\'91nok\'92+idx).className = \'91btn-nok\'92 + (r===\'91nok\'92?\'92 a\'92:\'92\'92);\
+document.getElementById(\'91af\'92+idx).classList.toggle(\'91show\'92, r===\'91nok\'92);\
+updateProgress();\
+const nok = Object.values(results).filter(r=>r.result===\'91nok\'92).length;\
+const pill = document.getElementById(\'91anomalyPill\'92);\
+pill.textContent = \'92\uc0\u9888 \u65039  \'92+nok;\
+pill.classList.toggle(\'91show\'92, nok>0);\
+\}\
+\
+function updD(idx) \{\
+if(!results[idx]) results[idx]=\{result:\'91nok\'92,desc:\'92\'92\};\
+results[idx].desc = document.getElementById(\'91d\'92+idx).value;\
+\}\
+\
+function updateProgress() \{\
+const done = Object.keys(results).length;\
+const total = filtered.length;\
+const pct = Math.round(done/total*100);\
+document.getElementById(\'91progText\'92).textContent = done+\'92/\'92+total;\
+document.getElementById(\'91progPct\'92).textContent = pct+\'92%\'92;\
+document.getElementById(\'91progFill\'92).style.width = pct+\'92%\'92;\
+\}\
+\
+function finishInspection() \{\
+const done = Object.keys(results).length;\
+if(done < filtered.length && !confirm(`$\{filtered.length-done\} pontos por responder. Continuar mesmo assim?`)) return;\
+generateReport();\
+saveToHistory();\
+showTab(\'91report\'92);\
+\}\
+\
+// ============================================================\
+// REPORT\
+// ============================================================\
+function generateReport() \{\
+const \{num,local,tec,data,proto:p\} = currentSession;\
+const nokList = filtered.map((item,idx)=>(\{item,idx,r:results[idx]\})).filter(x=>x.r?.result===\'91nok\'92);\
+const okCnt = Object.values(results).filter(r=>r.result===\'91ok\'92).length;\
+const dataFmt = data ? new Date(data).toLocaleDateString(\'91pt-PT\'92) : \'91\'97\'92;\
+\
+document.getElementById(\'91rSubtitle\'92).textContent = `Elevador $\{num\} \'97 Protocolo $\{p\} \'97 $\{dataFmt\}`;\
+document.getElementById(\'91rTotal\'92).textContent = filtered.length;\
+document.getElementById(\'91rOk\'92).textContent = okCnt;\
+document.getElementById(\'91rNok\'92).textContent = nokList.length;\
+\
+const sec = document.getElementById(\'91rAnomSection\'92);\
+if(!nokList.length) \{\
+sec.innerHTML = `<div class="all-ok-box"><span class="big">\uc0\u9989 </span><p>Nenhuma anomalia detetada!</p></div>`;\
+\} else \{\
+sec.innerHTML = `<div class="section-label">\uc0\u9888 \u65039  Anomalias ($\{nokList.length\})</div>` +\
+nokList.map(x=>` <div class="anom-item"> <div class="anom-zone">$\{x.item.z\}</div> <div class="anom-op">$\{x.item.op.substring(0,120)\}$\{x.item.op.length>120?'...':''\}</div> $\{x.r.desc?`<div class="anom-desc">\uc0\u55357 \u56492  $\{x.r.desc\}</div>`:''\} </div>`).join(\'92\'92);\
+\}\
+\
+document.getElementById(\'91rEmail\'92).textContent = buildEmail(num,local,tec,dataFmt,nokList,p);\
+\}\
+\
+function buildEmail(num,local,tec,data,nokList,p) \{\
+let e = `Assunto: Relat\'f3rio de Manuten\'e7\'e3o \'97 Elevador $\{num\} \'97 $\{data\}\\n\\n`;\
+e += `Exmo(a) Senhor(a),\\n\\nServe o presente email para comunicar o resultado da visita de manuten\'e7\'e3o preventiva:\\n\\n`;\
+e += `\'95 Elevador N\'ba: $\{num\}\\n\'95 Local: $\{local\}\\n\'95 Protocolo: $\{p\}\\n\'95 Data: $\{data\}\\n\'95 T\'e9cnico: $\{tec\}\\n\\n`;\
+if(!nokList.length) \{\
+e += `\uc0\u9989  A inspe\'e7\'e3o foi conclu\'edda sem anomalias. O equipamento encontra-se em boas condi\'e7\'f5es de funcionamento.\\n\\n`;\
+\} else \{\
+e += `Foram detetadas $\{nokList.length\} anomalia(s):\\n\\n`;\
+nokList.forEach((x,i) => \{\
+e += `$\{i+1\}. [$\{x.item.z.toUpperCase()\}]\\n   $\{x.item.op\}\\n`;\
+if(x.r.desc) e += `   \uc0\u8594  $\{x.r.desc\}\\n`;\
+e += \'91\\n\'92;\
+\});\
+e += `Iremos enviar proposta comercial para regulariza\'e7\'e3o das anomalias identificadas.\\n\\n`;\
+\}\
+e += `Com os melhores cumprimentos,\\n$\{tec\}\\nT\'e9cnico de Manuten\'e7\'e3o de Elevadores`;\
+return e;\
+\}\
+\
+function copyEmail() \{\
+navigator.clipboard.writeText(document.getElementById(\'91rEmail\'92).textContent).then(()=>\{\
+const b = document.querySelector(\'92.btn-copy\'92);\
+b.textContent=\'91\uc0\u10003  Copiado!\'92;\
+setTimeout(()=>b.textContent=\'91Copiar\'92,2000);\
+\});\
+\}\
+\
+function abrirEmail() \{\
+const txt = document.getElementById(\'91rEmail\'92).textContent;\
+const lines = txt.split(\'92\\n\'92);\
+const sub = lines[0].replace(\'91Assunto: \'91,\'92\'92);\
+const body = lines.slice(2).join(\'92\\n\'92);\
+window.location.href = `mailto:?subject=$\{encodeURIComponent(sub)\}&body=$\{encodeURIComponent(body)\}`;\
+\}\
+\
+function novaInspeccao() \{\
+proto=null; filtered=[]; results=\{\}; currentSession=null;\
+document.querySelectorAll(\'92.proto-btn\'92).forEach(b=>b.classList.remove(\'91sel\'92));\
+document.getElementById(\'91btnStart\'92).disabled=true;\
+document.getElementById(\'91headerProto\'92).classList.remove(\'91show\'92);\
+document.getElementById(\'91anomalyPill\'92).classList.remove(\'91show\'92);\
+showTab(\'91setup\'92);\
+\}\
+\
+// ============================================================\
+// HISTORY (localStorage)\
+// ============================================================\
+function saveToHistory() \{\
+const nokList = filtered.map((item,idx)=>(\{item,idx,r:results[idx]\})).filter(x=>x.r?.result===\'91nok\'92);\
+const record = \{\
+\'85currentSession,\
+ts: Date.now(),\
+total: filtered.length,\
+ok: Object.values(results).filter(r=>r.result===\'91ok\'92).length,\
+nok: nokList.length,\
+anomalias: nokList.map(x=>(\{zona:x.item.z,op:x.item.op,desc:x.r.desc||\'92\'92\}))\
+\};\
+const hist = getHistory();\
+hist.unshift(record);\
+if(hist.length>50) hist.pop();\
+localStorage.setItem(\'91elevcheck_hist\'92, JSON.stringify(hist));\
+showToast(\'91\uc0\u9989  Inspe\'e7\'e3o guardada no hist\'f3rico\'92);\
+\}\
+\
+function getHistory() \{\
+try \{ return JSON.parse(localStorage.getItem(\'91elevcheck_hist\'92)||\'92[]\'92); \} catch(e)\{return[];\}\
+\}\
+\
+function renderHistory() \{\
+const hist = getHistory();\
+const c = document.getElementById(\'91histList\'92);\
+if(!hist.length) \{\
+c.innerHTML = `<div class="hist-empty"><span class="ico">\uc0\u55357 \u56656 </span><p>Ainda n\'e3o h\'e1 inspe\'e7\'f5es guardadas</p></div>`;\
+return;\
+\}\
+c.innerHTML = hist.map((h,i)=>` <div class="hist-item"> <div class="hist-top"> <div class="hist-elev">Elevador $\{h.num\}</div> <div class="hist-proto">Protocolo $\{h.proto\}</div> </div> <div class="hist-loc">\uc0\u55357 \u56525  $\{h.local\}</div> <div class="hist-bot"> <div class="hist-date">\u55357 \u56787  $\{new Date(h.ts).toLocaleDateString('pt-PT')\} \'b7 $\{h.tec\}</div> <div class="hist-badge $\{h.nok>0?'nok':'ok'\}">$\{h.nok>0?'\u9888 \u65039  '+h.nok+' anomalia'+(h.nok>1?'s':''):'\u9989  Sem anomalias'\}</div> </div> $\{h.anomalias.length?`<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">\
+$\{h.anomalias.slice(0,3).map(a=>`<div style="font-size:11px;color:var(--muted);margin-bottom:3px">\'95 $\{a.op.substring(0,80)\}...</div>`).join(\'92\'92)\}\
+$\{h.anomalias.length>3?`<div style="font-size:11px;color:var(--accent)">+ $\{h.anomalias.length-3\} mais</div>`:\'92\'92\}\
+</div>`:''\} <div style="margin-top:10px;text-align:right"> <button class="hist-del" onclick="delHistory($\{i\},event)">\uc0\u55357 \u56785  Eliminar</button> </div> </div>`).join(\'92\'92);\
+\}\
+\
+function delHistory(idx, e) \{\
+e.stopPropagation();\
+const hist = getHistory();\
+hist.splice(idx,1);\
+localStorage.setItem(\'91elevcheck_hist\'92, JSON.stringify(hist));\
+renderHistory();\
+showToast(\'91Inspe\'e7\'e3o eliminada\'92);\
+\}\
+\
+// ============================================================\
+// UTILS\
+// ============================================================\
+function showToast(msg) \{\
+const t = document.getElementById(\'91toast\'92);\
+t.textContent = msg;\
+t.classList.add(\'91show\'92);\
+setTimeout(()=>t.classList.remove(\'91show\'92),2500);\
+\}\
+\
+// PWA Install\
+let deferredPrompt = null;\
+window.addEventListener(\'91beforeinstallprompt\'92, e => \{\
+e.preventDefault();\
+deferredPrompt = e;\
+document.getElementById(\'91installBanner\'92).classList.add(\'91show\'92);\
+\});\
+function installApp() \{\
+if(!deferredPrompt) return;\
+deferredPrompt.prompt();\
+deferredPrompt.userChoice.then(()=>\{\
+deferredPrompt=null;\
+document.getElementById(\'91installBanner\'92).classList.remove(\'91show\'92);\
+\});\
+\}\
+window.addEventListener(\'91appinstalled\'92, ()=>\{\
+document.getElementById(\'91installBanner\'92).classList.remove(\'91show\'92);\
+showToast(\'91\uc0\u9989  ElevCheck instalado com sucesso!\'92);\
+\});\
+\
+// Service Worker\
+if(\'91serviceWorker\'92 in navigator) \{\
+navigator.serviceWorker.register(\'92./sw.js\'92).then(()=>console.log(\'91SW ok\'92));\
+\}\
+\
+// Offline/Online\
+window.addEventListener(\'91offline\'92, ()=>showToast(\'91\uc0\u55357 \u56545  Sem liga\'e7\'e3o \'97 modo offline ativo\'92));\
+window.addEventListener(\'91online\'92, ()=>showToast(\'91\uc0\u9989  Liga\'e7\'e3o restabelecida\'92));\
+</script>\
+\
+</body>\
+</html>}
