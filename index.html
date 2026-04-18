@@ -8,9 +8,18 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ElevCheck">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
+
 <title>ElevCheck</title>
+<script>
+// Inline manifest for PWA
+const manifestData = {name:"ElevCheck — Inspeção de Elevadores",short_name:"ElevCheck",start_url:".",display:"standalone",background_color:"#0a0f1e",theme_color:"#0a0f1e"};
+const blob = new Blob([JSON.stringify(manifestData)], {type:"application/json"});
+const manifestURL = URL.createObjectURL(blob);
+const manifestLink = document.createElement("link");
+manifestLink.rel = "manifest";
+manifestLink.href = manifestURL;
+document.head.appendChild(manifestLink);
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -752,7 +761,7 @@ showToast(‘✅ ElevCheck instalado com sucesso!’);
 
 // Service Worker
 if(‘serviceWorker’ in navigator) {
-navigator.serviceWorker.register(’./sw.js’).then(()=>console.log(‘SW ok’));
+// SW disabled in single-file mode
 }
 
 // Offline/Online
