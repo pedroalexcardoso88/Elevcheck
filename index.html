@@ -472,11 +472,20 @@ const ITEMS = [
 // ============================================================
 let proto = null, filtered = [], results = {}, currentSession = null;
 
-// Init counts
-['A','B','C'].forEach(p => {
-  document.getElementById('pt'+p).textContent = ITEMS.filter(i=>i[p]).length + ' pontos';
-});
-document.getElementById('fData').valueAsDate = new Date();
+// Init counts — run after DOM is ready
+function initUI() {
+  ['A','B','C'].forEach(p => {
+    const el = document.getElementById('pt'+p);
+    if(el) el.textContent = ITEMS.filter(i=>i[p]).length + ' pontos';
+  });
+  const fData = document.getElementById('fData');
+  if(fData) fData.valueAsDate = new Date();
+}
+if(document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initUI);
+} else {
+  initUI();
+}
 
 // ============================================================
 // TABS
